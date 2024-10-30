@@ -27,7 +27,7 @@ export function AnimatedCard({ item, index, scrollY }: AnimatedCardProps) {
           scale: interpolate(
             scrollY.value,
             [index - 1, index, index + 1],
-            [0.92, 1, 0.92]
+            [0.9, 1, 0.9]
           ),
         },
       ],
@@ -48,10 +48,10 @@ export function AnimatedCard({ item, index, scrollY }: AnimatedCardProps) {
         style={[{ height: itemSize * 0.4 }, styles.image]}
       />
       <View style={styles.textContainer}>
-        <Text numberOfLines={1} style={styles.title}>
+        <Text numberOfLines={2} style={styles.title}>
           {item.title}
         </Text>
-        <Text numberOfLines={3} style={styles.description}>
+        <Text numberOfLines={4} style={styles.description}>
           {item.description}
         </Text>
       </View>
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   container: {
     padding: spacing * 2,
     borderRadius: 8,
-    gap: spacing,
+    gap: spacing * 2,
   },
   bgimage: {
     borderRadius: 12,

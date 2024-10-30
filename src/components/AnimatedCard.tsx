@@ -1,15 +1,43 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
+import Animated, {
+  interpolate,
+  SharedValue,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 
 import { Item } from '../data/faker';
 import { itemSize, spacing } from '../helpers/constants';
 
 interface AnimatedCardProps {
   item: Item;
+  index: number;
+  scrollY: SharedValue<number>;
 }
 
-export function AnimatedCard({ item }: AnimatedCardProps) {
+export function AnimatedCard({ item, index, scrollY }: AnimatedCardProps) {
+  const animatedStyles = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(
+        scrollY.value,
+        [index - 1, index, index + 1],
+        [0.3, 1, 0.3]
+      ),
+      transform: [
+        {
+          scale: interpolate(
+            scrollY.value,
+            [index - 1, index, index + 1],
+            [0.92, 1, 0.92]
+          ),
+        },
+      ],
+    };
+  });
+
   return (
-    <View style={[{ height: itemSize }, styles.container]}>
+    <Animated.View
+      style={[{ height: itemSize }, styles.container, animatedStyles]}
+    >
       <Image
         source={{ uri: item.image }}
         style={[StyleSheet.absoluteFillObject, styles.bgimage]}
@@ -33,7 +61,7 @@ export function AnimatedCard({ item }: AnimatedCardProps) {
           {item.author.name}
         </Text>
       </View>
-    </View>
+    </Animated.View>
   );
 }
 
@@ -48,7 +76,7 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    borderRadius: 12,
+    borderRadius: 8,
   },
   textContainer: {
     gap: spacing,

@@ -1,4 +1,8 @@
-import { FlatList, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import Animated, {
+  useAnimatedScrollHandler,
+  useSharedValue,
+} from 'react-native-reanimated';
 
 import { AnimatedCard } from './AnimatedCard';
 import { Item } from '../data/faker';
@@ -9,14 +13,23 @@ interface VerticalListProps {
 }
 
 export function VerticalList({ data }: VerticalListProps) {
+  const scrollY = useSharedValue(0);
+  const onScroll = useAnimatedScrollHandler((e) => {
+    scrollY.value = e.contentOffset.y / itemFullSize;
+  });
+
   return (
-    <FlatList
+    <Animated.FlatList
       data={data}
       contentContainerStyle={styles.listContentContainer}
       keyExtractor={(item) => item.id}
       snapToInterval={itemFullSize}
       decelerationRate="fast"
-      renderItem={({ item }) => <AnimatedCard item={item} />}
+      onScroll={onScroll}
+      scrollEventThrottle={16} // 1000 / 60 (fps)
+      renderItem={({ item, index }) => (
+        <AnimatedCard item={item} index={index} scrollY={scrollY} />
+      )}
     />
   );
 }

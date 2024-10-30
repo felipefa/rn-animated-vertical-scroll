@@ -1,16 +1,12 @@
-import { Dimensions, FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 
 import { AnimatedCard } from './AnimatedCard';
 import { Item } from '../data/faker';
+import { itemFullSize, spacing } from '../helpers/constants';
 
 interface VerticalListProps {
   data: Item[];
 }
-
-const { height } = Dimensions.get('window');
-const _spacing = 4;
-const _itemSize = height * 0.72;
-const _itemFullSize = _itemSize + _spacing * 2;
 
 export function VerticalList({ data }: VerticalListProps) {
   return (
@@ -18,18 +14,16 @@ export function VerticalList({ data }: VerticalListProps) {
       data={data}
       contentContainerStyle={styles.listContentContainer}
       keyExtractor={(item) => item.id}
-      snapToInterval={_itemFullSize}
+      snapToInterval={itemFullSize}
       decelerationRate="fast"
-      renderItem={({ item }) => (
-        <AnimatedCard item={item} itemSize={_itemSize} />
-      )}
+      renderItem={({ item }) => <AnimatedCard item={item} />}
     />
   );
 }
 
 const styles = StyleSheet.create({
   listContentContainer: {
-    padding: _spacing * 3,
-    gap: _spacing * 2,
+    padding: spacing * 3,
+    gap: spacing * 2,
   },
 });

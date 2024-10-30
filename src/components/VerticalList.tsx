@@ -10,6 +10,7 @@ interface VerticalListProps {
 const { height } = Dimensions.get('window');
 const _spacing = 4;
 const _itemSize = height * 0.72;
+const _itemFullSize = _itemSize + _spacing * 2;
 
 export function VerticalList({ data }: VerticalListProps) {
   return (
@@ -17,6 +18,8 @@ export function VerticalList({ data }: VerticalListProps) {
       data={data}
       contentContainerStyle={styles.listContentContainer}
       keyExtractor={(item) => item.id}
+      snapToInterval={_itemFullSize}
+      decelerationRate="fast"
       renderItem={({ item }) => (
         <AnimatedCard item={item} itemSize={_itemSize} />
       )}

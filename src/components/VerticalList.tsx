@@ -2,7 +2,7 @@ import { FlatList, StyleSheet } from 'react-native';
 
 import { AnimatedCard } from './AnimatedCard';
 import { Item } from '../data/faker';
-import { itemFullSize, spacing } from '../helpers/constants';
+import { screenHeight, itemFullSize, spacing } from '../helpers/constants';
 
 interface VerticalListProps {
   data: Item[];
@@ -23,7 +23,8 @@ export function VerticalList({ data }: VerticalListProps) {
 
 const styles = StyleSheet.create({
   listContentContainer: {
-    padding: spacing * 3,
+    paddingHorizontal: spacing * 3,
+    paddingVertical: (screenHeight - itemFullSize) / 2,
     gap: spacing * 2,
   },
 });
